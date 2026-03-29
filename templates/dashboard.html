@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Welcome, {{ current_user.username }}</h2>
+
+<h3>Add New Task</h3>
+<br><br>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.title.label }} {{ form.title() }}<br><br>
+    {{ form.description.label }}  {{ form.description() }}<br><br>
+    {{ form.deadline.label }} {{ form.deadline() }}<br><br>
+    {{ form.priority.label }} {{ form.priority() }}<br><br>
+    {{ form.submit() }}<br>
+</form>
+
+<h3>Your Tasks</h3>
+<ul>
+    {% for task in tasks %}
+        <li class="task-item" data-deadline="{{ task.deadline.strftime('%Y-%m-%d') }}">
+            <span class="task-title">{{ task.title }}</span> - {{ task.status }} - {{ task.priority }} - {{ task.deadline.strftime('%Y-%m-%d') }}
+            <a href="{{ url_for('delete_task', task_id=task.id) }}" class="delete-btn">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
